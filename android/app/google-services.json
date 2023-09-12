@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1090778564557",
+    "project_id": "lilmap-chat",
+    "storage_bucket": "lilmap-chat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090778564557:android:c6e67643c6fc20060ee684",
+        "android_client_info": {
+          "package_name": "com.example.mynews"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090778564557-dksjdm1qqsdh9gp1q5dujh5b9p3amnaq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8LC0-GHlge-XoZ9FpAZvRihkqPz0yzIU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1090778564557-dksjdm1qqsdh9gp1q5dujh5b9p3amnaq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
