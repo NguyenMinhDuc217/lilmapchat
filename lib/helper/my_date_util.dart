@@ -7,28 +7,47 @@ class MyDateUtil {
     return TimeOfDay.fromDateTime(date).format(context);
   }
 
-  static String getLastMessageTime(
+  static String getMessageTime(
       {required BuildContext context, required String time}) {
     final DateTime sent = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
+    final DateTime now = DateTime.now();
+
+    final formattedTime = TimeOfDay.fromDateTime(sent).format(context);
+    if (sent.day == now.day &&
+        sent.month == now.month &&
+        sent.year == now.year) {
+      return formattedTime;
+    }
+    return now.year == sent.year
+        ? '$formattedTime - ${sent.day} ${getMonth(sent)} ${sent.year}'
+        : '$formattedTime - ${sent.day} ${getMonth(sent)}';
+  }
+
+  static String getLastMessageTime(
+      {required BuildContext context,
+      required String time,
+      bool showYear = false}) {
+    final DateTime sent = DateTime.fromMillisecondsSinceEpoch(int.parse(time));
+
     final DateTime now = DateTime.now();
     if (sent.day == now.day &&
         sent.month == now.month &&
         sent.year == now.year) {
       return TimeOfDay.fromDateTime(sent).format(context);
     }
-    return '${sent.day} ${getMonth(sent)}';
+    return showYear
+        ? '${sent.day} ${getMonth(sent)} ${sent.year}'
+        : '${sent.day} ${getMonth(sent)}';
   }
 
   static String getLastActiveTime(
       {required BuildContext context, required String lastActive}) {
     final int i = int.tryParse(lastActive) ?? -1;
-    print(i);
 
     //If time is not available then return below statement
     if (i == -1) return 'Last seen not available';
     DateTime time = DateTime.fromMillisecondsSinceEpoch(i);
     // DateTime time = DateTime.fromMicrosecondsSinceEpoch(i);
-    print(time);
     DateTime now = DateTime.now();
 
     String formattedTime = TimeOfDay.fromDateTime(time).format(context);

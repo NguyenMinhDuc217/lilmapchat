@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -40,9 +41,15 @@ class _ProfirePageState extends State<ProfirePage> {
             backgroundColor: Colors.redAccent,
             onPressed: () async {
               Dialogs.showProgcessBar(context);
+
+              await APIS.updateActiveStatus(false);
+
               await APIS.auth.signOut().then((value) async {
                 await GoogleSignIn().signOut().then((value) {
                   Navigator.pop(context);
+
+                  APIS.auth = FirebaseAuth.instance;
+
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (_) => const LoginPage()));
                 });

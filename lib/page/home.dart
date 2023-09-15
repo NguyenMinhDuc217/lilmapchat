@@ -30,8 +30,14 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     APIS.getSelfInfo();
     SystemChannels.lifecycle.setMessageHandler((message) {
-      if (message.toString().contains('resumed')) APIS.updateActiveStatus(true);
-      if (message.toString().contains('paused')) APIS.updateActiveStatus(false);
+      if (APIS.auth.currentUser != null) {
+        if (message.toString().contains('resumed')) {
+          APIS.updateActiveStatus(true);
+        }
+        if (message.toString().contains('paused')) {
+          APIS.updateActiveStatus(false);
+        }
+      }
       return Future.value(message);
     });
   }
@@ -144,6 +150,8 @@ class _HomePageState extends State<HomePage> {
                         padding: EdgeInsets.only(top: mq.height * .01),
                         physics: const BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
+                          // print("IMAGE: ${list[index].image}");
+                          // print("NAME: ${list[index].name}");
                           return ChatUserCard(
                               user: _isSearching
                                   ? _searchList[index]

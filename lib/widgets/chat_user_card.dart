@@ -7,6 +7,7 @@ import 'package:mynews/main.dart';
 import 'package:mynews/model/chat_user.dart';
 import 'package:mynews/model/message.dart';
 import 'package:mynews/page/chat.dart';
+import 'package:mynews/widgets/dialogs/profile_dialog.dart';
 
 class ChatUserCard extends StatefulWidget {
   final ChatUser user;
@@ -44,14 +45,23 @@ class _ChatUserCardState extends State<ChatUserCard> {
               message = list[0];
             }
             return ListTile(
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(mq.height * .3),
-                child: CachedNetworkImage(
-                  width: mq.height * .055,
-                  height: mq.height * .055,
-                  imageUrl: widget.user.image,
-                  errorWidget: (context, url, error) => const CircleAvatar(
-                    child: Icon(CupertinoIcons.person),
+              leading: InkWell(
+                onTap: () {
+                  showDialog(
+                      context: context,
+                      builder: (_) => ProfileDialog(user: widget.user));
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(mq.height * .3),
+                  child: CachedNetworkImage(
+                    width: mq.height * .055,
+                    height: mq.height * .055,
+                    imageUrl: widget.user.image,
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => const CircleAvatar(
+                      child: Icon(CupertinoIcons.person),
+                    ),
                   ),
                 ),
               ),

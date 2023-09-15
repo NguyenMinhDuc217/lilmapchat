@@ -17,7 +17,7 @@ class Message {
   Message.fromJson(Map<String, dynamic> json) {
     msg = json['msg'].toString();
     read = json['read'].toString();
-    toId = json['told'].toString();
+    toId = json['toId'].toString();
     type = json['type'].toString() == Type.image.name ? Type.image : Type.text;
     sent = json['sent'].toString();
     fromId = json['fromId'].toString();
