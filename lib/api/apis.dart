@@ -70,10 +70,33 @@ class APIS {
     return (await firestore.collection('users').doc(user.uid).get()).exists;
   }
 
+  //for adding an chat user for our conversation
+  static Future<bool> addChatUser(String email) async {
+    final data = await firestore
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (data.docs.isNotEmpty && data.docs.first.id != user.uid) {
+      //user exists
+      firestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('my_users')
+          .doc(data.docs.first.id)
+          .set({});
+      return true;
+    } else {
+      //user not exists
+      return false;
+    }
+  }
+
   static late ChatUser me;
 
   static User get user => auth.currentUser!;
 
+  //Get my info
   static Future<void> getSelfInfo() async {
     return (await firestore
         .collection('users')
@@ -110,13 +133,42 @@ class APIS {
         .set(chatUser.toJson());
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() {
+  //For getting id's of known users from firestore database
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
+    print(
+        'DATA: ${firestore.collection('users').doc(user.uid).collection('my_users').snapshots()}');
     return firestore
         .collection('users')
-        .where('id', isNotEqualTo: user.uid)
+        .doc(user.uid)
+        .collection('my_users')
         .snapshots();
   }
 
+  //Get all users
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers(
+      List<String> userIds) {
+    print("USERID: $userIds");
+    print(
+        'DATA2: ${firestore.collection('users').where('id', whereIn: userIds).snapshots()}');
+    return firestore
+        .collection('users')
+        .where('id', whereIn: userIds)
+        // .where('id', isNotEqualTo: user.uid)
+        .snapshots();
+  }
+
+  //For adding an user to my user when first message is send
+  static Future<void> sendFirstMessage(
+      ChatUser chatUser, String msg, Type type) async {
+    await firestore
+        .collection('users')
+        .doc(chatUser.id)
+        .collection('my_users')
+        .doc(user.uid)
+        .set({}).then((value) => sendMessage(chatUser, msg, type));
+  }
+
+  //Update user info
   static Future<void> updateUserInfo() async {
     await firestore.collection('users').doc(user.uid).update({
       'name': me.name,
@@ -124,6 +176,7 @@ class APIS {
     });
   }
 
+  //Update profire picture
   static Future<void> updateProfirePicture(File file) async {
     final ext = file.path.split('.').last;
     final ref = storage.ref().child('profire_pictures/${user.uid}.$ext');
