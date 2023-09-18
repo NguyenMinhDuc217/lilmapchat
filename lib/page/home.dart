@@ -142,12 +142,6 @@ class _HomePageState extends State<HomePage> {
                   // If some or all data is loaded then show it
                   case ConnectionState.active:
                   case ConnectionState.done:
-                    print('OOOO: ${snapshot.data?.docs}');
-                    print('OOO1: ${APIS.getMyUsersId()}');
-                    print(
-                        'OOO2: ${snapshot.data?.docs.map((e) => e.id).toList() ?? []}');
-                    print(
-                        'OOO3: ${APIS.getAllUsers(snapshot.data?.docs.map((e) => e.id).toList() ?? [])}');
                     return StreamBuilder(
                       stream: APIS.getAllUsers(
                           snapshot.data?.docs.map((e) => e.id).toList() ?? []),
@@ -209,8 +203,8 @@ class _HomePageState extends State<HomePage> {
         contentPadding:
             const EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 10),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: const Row(
-          children: [
+        title: Row(
+          children: const [
             Icon(Icons.person_add, color: Colors.blue, size: 28),
             Text('     Add User')
           ],

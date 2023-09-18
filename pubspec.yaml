@@ -63,6 +63,8 @@ dependencies:
   flutter_notification_channel: ^2.0.0
   # For storing image into gallery
   gallery_saver: ^2.3.2
+  # Intergrating pre-built call kit
+  zego_uikit_prebuilt_call: ^3.13.6
 
 dev_dependencies:
   flutter_test:

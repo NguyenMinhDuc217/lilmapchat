@@ -135,8 +135,6 @@ class APIS {
 
   //For getting id's of known users from firestore database
   static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
-    print(
-        'DATA: ${firestore.collection('users').doc(user.uid).collection('my_users').snapshots()}');
     return firestore
         .collection('users')
         .doc(user.uid)
@@ -147,9 +145,6 @@ class APIS {
   //Get all users
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers(
       List<String> userIds) {
-    print("USERID: $userIds");
-    print(
-        'DATA2: ${firestore.collection('users').where('id', whereIn: userIds).snapshots()}');
     return firestore
         .collection('users')
         .where('id', whereIn: userIds)

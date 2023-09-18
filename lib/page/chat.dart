@@ -9,6 +9,7 @@ import 'package:mynews/helper/my_date_util.dart';
 import 'package:mynews/main.dart';
 import 'package:mynews/model/chat_user.dart';
 import 'package:mynews/model/message.dart';
+import 'package:mynews/page/call.dart';
 import 'package:mynews/page/view_profire.dart';
 import 'package:mynews/widgets/message_card.dart';
 
@@ -193,7 +194,20 @@ class _ChatPageState extends State<ChatPage> {
                           color: Colors.black54,
                         ))
                   ],
-                )
+                ),
+                IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => CallPage(
+                                    chatUser: list[0],
+                                  )));
+                    },
+                    icon: const Icon(
+                      Icons.video_chat_outlined,
+                      color: Colors.blue,
+                    ))
               ],
             );
           },
